@@ -19,6 +19,7 @@ GPS + IMU outdoor navigation for wheeled robot using LOS Guidance and PID Headin
 
 ```bash
 cd mybot_ws
+catkin_make  --pkg utils
 catkin_make
 source devel/setup.bash
 ./run_master.sh
