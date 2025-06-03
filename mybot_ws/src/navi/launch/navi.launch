@@ -1,0 +1,255 @@
+<launch>
+  <arg name="avoid_enabled" default="false" />
+  <arg name="enable_urg_node" default="false" />
+  <arg name="gps_enabled" default="false" />
+  <!-- <arg name="enable_imu" default="false"/> -->
+  <arg name="enable_guider" default="true"/>
+  <!-- <arg name="enable_controller" default="false"/> -->
+  <arg name="enable_can" default="true"/>
+  <arg name="enable_mqtt" default="true"/>
+
+<!-- ======================Guider====================================================================================-->
+<group if="$(arg enable_guider)">
+  <node pkg="guider" type="guider_node" name="guider_node" output="screen" >
+    <!-- <env name="ROS_IP" value="172.20.10.4"/> -->
+    <param name="set_heading" value="1.33866753628" />
+    <param name="ned_lat" value="10.772580"/>
+    <param name="ned_lon" value="106.658790"/>
+
+    <!-- setup -->
+    <param name="guiding_period" value="0.25" />           
+    <param name="controlling_period" value="0.252"/>        
+    <param name="set_speed" value="7.5"/>
+
+    <!-- param LOS -->
+    <param name="LOS_beta" value="0.0" />
+    <param name="LOS_radius" value="8.0"/>
+
+    <param name="LOS_cte_scale" value="0.1" />
+    <param name="LOS_min_delta" value="6.0"/>
+    <param name="LOS_max_delta" value="14" />
+    
+    <!-- param PID -->
+    <param name="heading_scale" value="1.0"/>              
+    <param name="Kp" value="40"/>
+    <param name="Ki" value="1.2"/>
+    <param name="Kd" value="5.0"/>
+    <!-- =============================================================================== Cũ =========================== -->
+
+    <!-- base 1-->
+
+          <!-- =================================base 1 tới base 2================================== -->
+          <!-- <rosparam param="waypoint_outdoor_x">[0, -9.7340183 ,  -23.0076277 ,    -28.8701196, -44.1346563 ]</rosparam>
+          <rosparam param="waypoint_outdoor_y">[0, 32.0315596,    76.5259409   ,    96.0947342, 149.4443256]</rosparam>  -->
+
+          <!-- =================================base 1 tới d2_   ================================== -->
+          <!-- <rosparam param="waypoint_outdoor_x">[0, -9.7340183 ,  -23.0076277 ,  -47.5639553 ]</rosparam>
+          <rosparam param="waypoint_outdoor_y">[0, 32.0315596,    76.5259409   , 69.4200122 ]</rosparam>  -->
+
+          <!-- =================================base 1 tới d1_   ================================== -->
+          <!-- <rosparam param="waypoint_outdoor_x">[0, -9.7340183 ,  29.8658134 ]</rosparam>
+          <rosparam param="waypoint_outdoor_y">[0, 32.0315596,   42.7451359 ]</rosparam>  -->
+
+
+  <!-- base 2 -->
+
+        <!-- =================================base 2 tới base 1================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0,  15.2647775,   21.1273578,  34.4011680,   44.1353308     ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0, -53.3495225,  -72.9182894, -117.4126108, -149.4441264    ]</rosparam>   -->
+
+        <!-- =================================base 2 tới d1_  ================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0,  15.2647775,   21.1273578,  34.4011680,    74.0009513     ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0, -53.3495225,  -72.9182894, -117.4126108,  -106.6988558    ]</rosparam>   -->
+
+        <!-- =================================base 2 tới d2_  ================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0,  15.2647775,   21.1273578,  -3.4289378     ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0, -53.3495225,  -72.9182894,  -80.0243290    ]</rosparam>   -->
+
+
+  <!-- d1_ -->
+
+        <!-- =================================d1_ tới base 1 ================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0,  -39.5998178,  -29.8657582   ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0,  -10.7136274,   -42.7451744    ]</rosparam>   -->
+
+        <!-- =================================d1_ tới base 2 ================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0,  -39.5998178,  -52.8734846,  -58.7360019, -74.0006074   ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0,  -10.7136274,   33.7807368,   53.3495225,  106.6990942     ]</rosparam>  -->
+
+        <!-- =================================d1_ tới d2_    ================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0,  -39.5998178,  -52.8734846,  -77.4298032   ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0,  -10.7136274,   33.7807368,   26.6747763     ]</rosparam>  -->
+
+  <!-- d2_ -->
+
+        <!-- =================================d2_ tới base 1 ================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0, 24.5563128, 37.8300155,  47.5641009  ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0,  7.1059802, -37.3883733,-69.4199124 ]</rosparam>   -->
+
+        <!-- =================================d2_ tới base 2 ================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0, 24.5563128, 18.6937798,  3.4291312  ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0,  7.1059802, 26.6747613,  80.0243207 ]</rosparam>     -->
+
+        <!-- =================================d2_ tới d1_    ================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0, 24.5563128, 37.8300155,   77.4298246  ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0,  7.1059802, -37.3883733, -26.6747139 ]</rosparam>      -->
+
+
+<!-- tọa độ lat, lon -->
+<!-- 10.904197   106.797314 đầu -->
+<!-- 1)10.904109  106.797607   2) 10.903989  106.798014   3) 10.903936 106.798193 -->
+
+<!--  10.903767, 106.797949 d2_       10.904467, 106.797705 d1_-->
+
+<!--  10.903798 106.798681 đuôi -->
+
+
+
+<!-- =============================================================================== Mới =========================== -->
+
+<!-- base 1-->
+
+          <!-- =================================base 1 tới base 2================================== -->
+          <!-- <rosparam param="waypoint_outdoor_x">[0, -9.7340183 ,  -22.7200392    ,    -36.8895606, -45.2186814 ]</rosparam>
+          <rosparam param="waypoint_outdoor_y">[0, 32.0315596 ,    72.9948147   ,    119.2602627,   147.7279618]</rosparam>  -->
+
+          <!-- =================================base 1 tới d2_   ================================== -->
+          <!-- <rosparam param="waypoint_outdoor_x">[0, -9.7340183 ,  -22.7200392    ,    -51.5239479 ]</rosparam>
+          <rosparam param="waypoint_outdoor_y">[0, 32.0315596 ,    72.9948147   ,     64.0959968 ]</rosparam>  -->
+
+          <!-- =================================base 1 tới d4_   ================================== -->
+          <!-- <rosparam param="waypoint_outdoor_x">[0, -9.7340183 ,  -22.7200392 ,    -36.8895606,   -45.2186814  , -50.6165701, -25.1863714 , -9.4348976 ]</rosparam>
+          <rosparam param="waypoint_outdoor_y">[0, 32.0315596 ,   72.9948147 ,    119.2602627,   147.7279618  ,  163.7437855,  170.8605727, 177.9774010]</rosparam>  -->
+
+<!-- d2_ -->
+
+        <!-- =================================d2_ tới base 1 ================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0, 28.8038915, 41.7899917,   51.5240720  ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0,  8.8988736, -32.0643564, -64.0958971 ]</rosparam>   -->
+
+        <!-- =================================d2_ tới base 2 ================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0, 28.8038915, 14.6342805,  6.3051046  ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0,  8.8988736, 55.1642942, 83.6319772 ]</rosparam>  -->
+
+        <!-- =================================d2_ tới d4_    ================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0, 28.8038915, 14.6342805,  6.3051046 , 0.9071849  , 26.3373698 , 42.0888298]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0,  8.8988736, 55.1642942, 83.6319772 , 99.6477904, 106.7646269, 113.8814856]</rosparam>  -->
+
+<!-- base 2 -->
+
+        <!-- =================================base 2 tới base 1================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0,  8.3292478 ,   22.4989756,  35.4851793 ,   45.2193405     ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0, -28.4676620,  -74.7330468, -115.6962440,  -147.7277601    ]</rosparam>   -->
+
+        <!-- =================================base 2 tới d2_  ================================== -->
+        <rosparam param="waypoint_outdoor_x">[0,  8.3292478 ,   22.4989756,  -6.3048934     ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0, -28.4676620,  -74.7330468,  -83.6319931    ]</rosparam>  
+
+        <!-- =================================base 2 tới d4_  ================================== -->
+        <!-- <rosparam param="waypoint_outdoor_x">[0,  -5.3979593 ,   13.0524622,  35.7836489     ]</rosparam>
+        <rosparam param="waypoint_outdoor_y">[0, 17.7977622  ,   23.1327051, 30.2495988      ]</rosparam>   -->
+
+<!-- d4_-->
+
+          <!-- =================================d4_ tới base 1================================== -->
+          <!-- <rosparam param="waypoint_outdoor_x">[0, -22.7311802 ,  -41.1815967    ,    -35.7836212, -27.4543474, -13.2845773 , -0.2983362  ,  9.4358542]</rosparam>
+          <rosparam param="waypoint_outdoor_y">[0, -7.1169145 ,   -12.4518742   ,     -30.2496315, -58.7172858, -104.9826577, -145.9458431,  -177.9773503 ]</rosparam>  -->
+
+          <!-- =================================d4_ tới d2_   ================================== -->
+          <!-- <rosparam param="waypoint_outdoor_x">[0, -15.7514356 ,  -41.1815960    ,    -35.7836212 , -27.4543474, -13.2845773 , -42.0884382  ]</rosparam>
+          <rosparam param="waypoint_outdoor_y">[0, -7.1169130  ,  -14.2338369   ,     -30.2496315, -58.7172858, -104.9826577, -113.8816304 ]</rosparam>  -->
+
+  </node>
+</group>
+<!-- ===================================================================================================================== -->
+
+<!-- Uniservice   0.000000, -0.000000
+d5          -19.910474, 34.986099
+H1          -2.212247, 44.825916
+d4           -54.200666, 88.558655
+d6           -66.368134, 107.145079
+H6            -8.848793, 144.426943
+ 
+Bus           13.274441, 227.409418
+d8            123.224623, 229.485955
+d1            135.613235, 208.166315
+NTD           166.253019, 162.684449
+
+d7            46.458295, 178.210087
+d2            57.519580, 158.530393
+H3            88.491264, 110.424515
+d3            15.486194, 130.104418
+H2 -->
+<!-- ===================================================================================================================== -->
+
+<!-- ==============================CAN==================================== -->
+<group if="$(arg enable_can)">
+<node name = "can_node" pkg = "serial_can" type="can_node" output="screen">
+  <param name="enable_can" value="true"/> 
+  <param name="can_port" value="/dev/ttyUSB0"/>
+  <param name="can_baud" value="921600"/>
+</node>
+</group>
+<!-- ================================================================== -->
+
+
+
+
+<group if="$(arg enable_urg_node)">
+  <node name="urg_node" pkg="urg_node" type="urg_node" output="screen">
+    <param name="ip_address" value=""/>
+    <param name="serial_port" value="/dev/ttyACM1"/>
+    <param name="serial_baud" value="115200"/>
+    <param name="frame_id" value="base_link"/>
+    <param name="calibrate_time" value="false"/>
+    <param name="publish_intensity" value="true"/>
+    <param name="publish_multiecho" value="false"/>
+    <param name="enable_urg-node" value="true"/>
+  </node>
+</group>
+
+<group if="$(arg gps_enabled)">
+<node name = "gps_node1" pkg = "serial_gps" type="gps_node1" output="screen">
+  <param name="enable_gps" value="true"/> 
+  <param name="gps_port" value="/dev/ttyUSB0"/>
+  <param name="gps_baud" value="115200"/>
+  <param name="ref_lat" value=" 10.88133"/>
+  <param name="ref_lon" value="106.80508"/>
+</node>
+</group>
+<group if="$(arg avoid_enabled)">
+<node name = "obstacle_node" pkg = "outdoor_obstacle" type="obstacle_node" output="screen">
+</node>
+</group>
+
+
+
+<group if="$(arg enable_mqtt)">
+<!-- <node name = "test_node" pkg = "mqtt_start" type="test_node.py" output="screen">
+</node> -->
+<node name = "start_mq_node" pkg = "mqtt_start" type="start_mq_node.py" output="screen">
+</node>
+</group>
+
+
+<!-- <group if="$(arg enable_imu)">
+<node name = "imu_node" pkg = "mpu_6050_driver" type="imu_node" output="screen">
+</node>
+</group> -->
+
+
+
+<!-- <group if="$(arg enable_controller)">
+  <node pkg="controller" type="controller" name="controller"  >
+    <param name="controlling_period" value="0.02" />
+    <param name="diff_rpm" value="45.0" />
+    <param name="heading_Kp" value="45.0" />
+    <param name="heading_Ki" value="0.0" />
+    <param name="heading_Kd" value="15.0" />
+    <param name="wheel_radius" value="0.125"/>
+  </node>
+</group> -->
+
+
+
+</launch>
