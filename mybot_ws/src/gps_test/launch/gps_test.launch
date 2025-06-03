@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="gps_test" type="gps_compare_node" name="gps_compare_node" output="screen" />
+</launch>
+
